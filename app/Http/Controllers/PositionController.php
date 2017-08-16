@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Position;
+use App\Http\Requests\StorePosition;
+use App\Http\Requests\UpdatePosition;
 use Illuminate\Http\Request;
 
 class PositionController extends Controller
@@ -46,7 +48,7 @@ class PositionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePosition $request)
     {
         $position = new Position;
 
@@ -94,7 +96,7 @@ class PositionController extends Controller
      * @param  \App\Position  $position
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Position $position)
+    public function update(UpdatePosition $request, Position $position)
     {
         $position = Position::find($position);
 

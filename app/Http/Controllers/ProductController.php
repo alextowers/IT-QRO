@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Http\Requests\StoreProduct;
+use App\Http\Requests\UpdateProduct;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -47,7 +49,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProduct $request)
     {
         $product = new Product;
         
@@ -102,18 +104,27 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateProduct $request, Product $product)
     {
         $product = Product::find($product);
 
-        $product->sku = $request->input('sku');
-        $product->name = $request->input('name');
-        $product->price = $request->input('price');
-        $product->image = $request->file('image')->store('images');
-
-        $category = App\Category::find($request->input('category'));
-        $product->category()
-            ->associate($category);
+        if ($request->input('sku')) {
+            $product->sku = $request->input('sku');
+        }
+        if ($request->input('name')) {
+            $product->name = $request->input('name');
+        }
+        if ($request->input('price')) {
+            $product->price = $request->input('price');
+        }
+        if ($request->input('image')) {
+            $product->image = $request->file('image')->store('images');
+        }
+        if ($request->input('category')) {
+            $category = App\Category::find($request->input('category'));
+            $product->category()
+                ->associate($category);
+        }
 
         $product->save();
 

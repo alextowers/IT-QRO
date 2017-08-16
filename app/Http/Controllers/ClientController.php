@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Client;
+use App\Http\Requests\StoreClient;
+use App\Http\Requests\UpdateClient;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -46,7 +48,7 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreClient $request)
     {
         $client = new Client;
 
@@ -100,18 +102,25 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(UpdateClient $request, Client $client)
     {
         $client = Client::find($client);
 
-        $client->name = $request->input('name');
-        $client->rfc = $request->input('rfc');
-        $client->contact = $request->input('contact');
-
-        $branch = App\Branch::find($request->input('branch'));
-        $client->branch()
-            ->associate($branch);
-
+        if ($request->input('name')) {
+            $client->name = $request->input('name');
+        }
+        if ($request->input('rfc')) {
+            $client->rfc = $request->input('rfc');
+        }
+        if ($request->input('contact')) {
+            $client->contact = $request->input('contact');
+        }
+        if ($request->input('branch')) {
+            $branch = App\Branch::find($request->input('branch'));
+            $client->branch()
+                ->associate($branch);
+        }
+        
         $client->save();
 
         return redirect()

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Employee;
+use App\Http\Requests\StoreEmployee;
+use App\Http\Requests\UpdateEmployee;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -46,7 +48,7 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEmployee $request)
     {
         $employee = new Employee;
 
@@ -107,24 +109,35 @@ class EmployeeController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee)
+    public function update(UpdateEmployee $request, Employee $employee)
     {
         $employee = Employee::find($employee);
 
-        $employee->name = $request->input('name');
-        $employee->first_name = $request->input('first_name');
-        $employee->last_name = $request->input('last_name');
-        $employee->maiden_name = $request->input('maiden_name');
-        $employee->salary = $request->input('salary');
-        $employee->date_of_hire = $request->input('date_of_hire');
-
-        $branch = App\Branch::find($request->input('branch'));
-        $employee->branch()
-            ->associate($branch);
-
-        $position = App\Position::find($request->input('position'));
-        $employee->position()
-            ->associate($position);
+        if ($request->input('first_name')) {
+            $employee->first_name = $request->input('first_name');
+        }
+        if ($request->input('last_name')) {
+            $employee->last_name = $request->input('last_name');
+        }
+        if ($request->input('maiden_name')) {
+            $employee->maiden_name = $request->input('maiden_name');
+        }
+        if ($request->input('salary')) {
+            $employee->salary = $request->input('salary');
+        }
+        if ($request->input('date_of_hire')) {
+            $employee->date_of_hire = $request->input('date_of_hire');
+        }
+        if ($request->input('branch')) {
+            $branch = App\Branch::find($request->input('branch'));
+            $employee->branch()
+                ->associate($branch);
+        }
+        if ($request->input('position')) {
+            $position = App\Position::find($request->input('position'));
+            $employee->position()
+                ->associate($position);
+        }
 
         $employee->save();
 
