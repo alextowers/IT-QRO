@@ -28,6 +28,7 @@ class StoreProduct extends FormRequest
             'branch' => 'required|array',
             'sku' => 'required|numeric|min:6|max:15',
             'name' => 'required|alpha_num|max:50',
+            'description' => 'required|alpha_num|max:100',
             'price' => 'required|numeric',
             'image' => 'required|image'
         ];

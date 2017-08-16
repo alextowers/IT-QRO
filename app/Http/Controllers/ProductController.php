@@ -25,12 +25,23 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Product::all();
+        $category = \App\Category::all();
+        $data = \App\Product::select('*');
+
+        if ($request->has('category')) {
+            $data->where('category_id', $request->input('type'));
+        }
+        if ($request->has('price')) {
+            $data->orderBy('price', $request->input('price'));
+        }
+
+        $data->get();
 
         return view('products.index')
-            ->with('data', $data);
+            ->with('data', $data)
+            ->with('category', $category);
     }
 
     /**
@@ -55,14 +66,15 @@ class ProductController extends Controller
         
         $product->sku = $request->input('sku');
         $product->name = $request->input('name');
+        $product->description = $request->input('description');
         $product->price = $request->input('price');
         $product->image = $request->file('image')->store('images');
 
-        $category = App\Category::find($request->input('category'));
+        $category = \App\Category::find($request->input('category'));
         $product->category()
             ->associate($category);
 
-        $branch = App\Branch::find($request->input('branch'));
+        $branch = \App\Branch::find($request->input('branch'));
         $product->branches()->attach($branch);
 
         $product->save();
@@ -111,25 +123,28 @@ class ProductController extends Controller
     {
         $product = Product::find($product);
 
-        if ($request->input('sku')) {
+        if ($request->has('sku')) {
             $product->sku = $request->input('sku');
         }
-        if ($request->input('name')) {
+        if ($request->has('name')) {
             $product->name = $request->input('name');
         }
-        if ($request->input('price')) {
+        if ($request->has('description')) {
+            $product->description = $request->input('description');
+        }
+        if ($request->has('price')) {
             $product->price = $request->input('price');
         }
-        if ($request->input('image')) {
+        if ($request->has('image')) {
             $product->image = $request->file('image')->store('images');
         }
-        if ($request->input('category')) {
+        if ($request->has('category')) {
             $category = App\Category::find($request->input('category'));
             $product->category()
                 ->associate($category);
         }
-        if ($request->input('branch')) {
-            $branch = App\Branch::find($request->input('branch'));
+        if ($request->has('branch')) {
+            $branch = \App\Branch::find($request->input('branch'));
             $product->branches()
                 ->sync($branch);
         }

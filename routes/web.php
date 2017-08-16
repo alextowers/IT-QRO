@@ -12,7 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('about_us');
+});
+Route::get('/contact', function () {
+    return view('contact');
 });
 
 Auth::routes();

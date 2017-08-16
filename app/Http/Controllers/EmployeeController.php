@@ -113,27 +113,27 @@ class EmployeeController extends Controller
     {
         $employee = Employee::find($employee);
 
-        if ($request->input('first_name')) {
+        if ($request->has('first_name')) {
             $employee->first_name = $request->input('first_name');
         }
-        if ($request->input('last_name')) {
+        if ($request->has('last_name')) {
             $employee->last_name = $request->input('last_name');
         }
-        if ($request->input('maiden_name')) {
+        if ($request->has('maiden_name')) {
             $employee->maiden_name = $request->input('maiden_name');
         }
-        if ($request->input('salary')) {
+        if ($request->has('salary')) {
             $employee->salary = $request->input('salary');
         }
-        if ($request->input('date_of_hire')) {
+        if ($request->has('date_of_hire')) {
             $employee->date_of_hire = $request->input('date_of_hire');
         }
-        if ($request->input('branch')) {
+        if ($request->has('branch')) {
             $branch = App\Branch::find($request->input('branch'));
             $employee->branch()
                 ->associate($branch);
         }
-        if ($request->input('position')) {
+        if ($request->has('position')) {
             $position = App\Position::find($request->input('position'));
             $employee->position()
                 ->associate($position);

@@ -106,16 +106,16 @@ class ClientController extends Controller
     {
         $client = Client::find($client);
 
-        if ($request->input('name')) {
+        if ($request->has('name')) {
             $client->name = $request->input('name');
         }
-        if ($request->input('rfc')) {
+        if ($request->has('rfc')) {
             $client->rfc = $request->input('rfc');
         }
-        if ($request->input('contact')) {
+        if ($request->has('contact')) {
             $client->contact = $request->input('contact');
         }
-        if ($request->input('branch')) {
+        if ($request->has('branch')) {
             $branch = App\Branch::find($request->input('branch'));
             $client->branch()
                 ->associate($branch);

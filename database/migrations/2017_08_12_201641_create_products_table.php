@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('category_id');
             $table->unsignedInteger('sku');
             $table->string('name');
+            $table->string('description');
             $table->float('price', 9, 2);
             $table->text('image');
             $table->timestamps();
