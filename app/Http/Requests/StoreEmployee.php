@@ -24,8 +24,8 @@ class StoreEmployee extends FormRequest
     public function rules()
     {
         return [
-            'branch_id' => 'required|numeric',
-            'position_id' => 'required|numeric',
+            'branch' => 'required|numeric',
+            'position' => 'required|numeric',
             'first_name' => 'required|alpha|max:30',
             'last_name' => 'required|alpha|max:30',
             'maiden_name' => 'required|alpha|max:30',

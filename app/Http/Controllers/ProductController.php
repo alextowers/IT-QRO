@@ -62,6 +62,9 @@ class ProductController extends Controller
         $product->category()
             ->associate($category);
 
+        $branch = App\Branch::find($request->input('branch'));
+        $product->branches()->attach($branch);
+
         $product->save();
 
         return redirect()
@@ -124,6 +127,11 @@ class ProductController extends Controller
             $category = App\Category::find($request->input('category'));
             $product->category()
                 ->associate($category);
+        }
+        if ($request->input('branch')) {
+            $branch = App\Branch::find($request->input('branch'));
+            $product->branches()
+                ->sync($branch);
         }
 
         $product->save();

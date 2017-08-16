@@ -24,8 +24,8 @@ class UpdateEmployee extends FormRequest
     public function rules()
     {
         return [
-            'branch_id' => 'required_without:position_id,first_name,last_name,maiden_name,salary,date_of_hire|numeric',
-            'position_id' => 'numeric',
+            'branch' => 'required_without:position,first_name,last_name,maiden_name,salary,date_of_hire|numeric',
+            'position' => 'numeric',
             'first_name' => 'alpha|max:30',
             'last_name' => 'alpha|max:30',
             'maiden_name' => 'alpha|max:30',

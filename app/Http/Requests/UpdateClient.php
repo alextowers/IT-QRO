@@ -24,7 +24,7 @@ class UpdateClient extends FormRequest
     public function rules()
     {
         return [
-            'branch_id' => 'required_without:name,rfc,contact|numeric',
+            'branch' => 'required_without:name,rfc,contact|numeric',
             'name' => 'alpha-num|max:50',
             'rfc' => 'alpha-num|min:12|max:13',
             'contact' => 'alpha|max:50'

@@ -24,7 +24,8 @@ class StoreProduct extends FormRequest
     public function rules()
     {
         return [
-            'category_id' => 'required|numeric',
+            'category' => 'required|numeric',
+            'branch' => 'required|array',
             'sku' => 'required|numeric|min:6|max:15',
             'name' => 'required|alpha_num|max:50',
             'price' => 'required|numeric',

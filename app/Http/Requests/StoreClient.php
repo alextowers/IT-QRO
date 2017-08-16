@@ -24,7 +24,7 @@ class StoreClient extends FormRequest
     public function rules()
     {
         return [
-            'branch_id' => 'required|numeric',
+            'branch' => 'required|numeric',
             'name' => 'required|alpha-num|max:50',
             'rfc' => 'required|alpha-num|min:12|max:13',
             'contact' => 'required|alpha|max:50'
