@@ -21,6 +21,7 @@ Route::get('/contact', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/reports', 'ReportController@index')->name('reports');
 
 Route::resource('categories', 'CategoryController');
 Route::resource('clients', 'ClientController');

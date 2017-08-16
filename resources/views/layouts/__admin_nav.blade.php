@@ -5,6 +5,6 @@
         <a href="{{ route('products.index') }}" class="{{ Request::is('products') ? 'active' : '' }}">Productos</a>
         <a href="{{ route('employees.index') }}" class="{{ Request::is('employees') ? 'active' : '' }}">Empleados</a>
         <a href="{{ route('clients.index') }}" class="{{ Request::is('clients') ? 'active' : '' }}">Clientes</a>
-        <a href="{{ url('/reports') }}" class="{{ Request::is('reports') ? 'active' : '' }}">Reportes</a>
+        <a href="{{ route('reports') }}" class="{{ Request::is('reports') ? 'active' : '' }}">Reportes</a>
     </div>
 </div>
