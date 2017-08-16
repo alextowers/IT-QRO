@@ -37,7 +37,7 @@ class ProductController extends Controller
             $data->orderBy('price', $request->input('price'));
         }
 
-        $data->get();
+        $data->paginate(10);
 
         return view('products.index')
             ->with('data', $data)

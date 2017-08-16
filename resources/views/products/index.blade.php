@@ -1,4 +1,7 @@
 @extends('layouts.app') @section('content')
+@if (Auth::user())
+@include('layouts.__admin_nav')
+@endif
 <div class="container-fluid" id="filtersContainer">
     <div class="container">
         <form action="{{ route('products.index') }}" method="GET" class="form-row">
@@ -6,8 +9,8 @@
             <div class="form-group">
                 <label for="type">Categoría:</label>
                 <select name="category" id="category" class="form-control" required="required">
-                    @foreach ($category as $row)
-                    <option value="{{ $row->id }}">{{ ucwords($row->name) }}</option>
+                    @foreach ($category as $option)
+                    <option value="{{ $option->id }}">{{ ucwords($option->name) }}</option>
                     @endforeach
                 </select>
             </div>
@@ -29,7 +32,7 @@
     <h1>Productos <span class="text-muted">Agregue un filtro para una mejor búsqueda</span></h1>
     <hr>
     <div class="row">
-    @if ($data)
+    @if ($data == null)
         @foreach ($data as $row)
         <div class="col-sm-6 product-container">
             <div class="row">
@@ -43,9 +46,10 @@
             </div>
         </div>
         @endforeach
+        {{ $data->links() }}
     @else
         <div class="alert alert-danger" role="alert">
-            No hay productos en la base de datos
+            No hay productos en la base de datos, agregue un nuevo producto
         </div>
     @endif
     </div>
