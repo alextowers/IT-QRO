@@ -25,9 +25,9 @@ class StoreClient extends FormRequest
     {
         return [
             'branch' => 'required|numeric',
-            'name' => 'required|alpha-num|max:50',
+            'name' => 'required|string|max:50',
             'rfc' => 'required|alpha-num|min:12|max:13',
-            'contact' => 'required|alpha|max:50'
+            'contact' => 'required|string|max:50'
         ];
     }
 }

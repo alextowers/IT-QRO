@@ -27,21 +27,24 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $category = \App\Category::all();
-        $data = \App\Product::select('*');
+        $categories = \App\Category::all();
+        $products = Product::all();
 
         if ($request->has('category')) {
-            $data->where('category_id', $request->input('type'));
+            $products->where('category_id', $request->input('category'));
         }
         if ($request->has('price')) {
-            $data->orderBy('price', $request->input('price'));
+            if ($request->input('price') == "asc") {
+                $products = $products->sortBy('price');
+            } elseif ($request->input('price') == "desc") {
+                $products = $products->sortByDesc('price');
+            }
         }
-
-        $data->paginate(10);
+        
 
         return view('products.index')
-            ->with('data', $data)
-            ->with('category', $category);
+            ->with('products', $products)
+            ->with('categories', $categories);
     }
 
     /**
@@ -51,7 +54,12 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $categories = \App\Category::all();
+        $branches = \App\Branch::all();
+
+        return view('products.create')
+            ->with('categories', $categories)
+            ->with('branches', $branches);
     }
 
     /**
@@ -68,16 +76,17 @@ class ProductController extends Controller
         $product->name = $request->input('name');
         $product->description = $request->input('description');
         $product->price = $request->input('price');
-        $product->image = $request->file('image')->store('images');
+        $product->image = $request->file('image')->store('public/images');
 
         $category = \App\Category::find($request->input('category'));
         $product->category()
             ->associate($category);
 
+        $product->save();
+        
         $branch = \App\Branch::find($request->input('branch'));
         $product->branches()->attach($branch);
 
-        $product->save();
 
         return redirect()
             ->route('products.index')

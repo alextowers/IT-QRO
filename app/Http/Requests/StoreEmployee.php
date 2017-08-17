@@ -26,9 +26,9 @@ class StoreEmployee extends FormRequest
         return [
             'branch' => 'required|numeric',
             'position' => 'required|numeric',
-            'first_name' => 'required|alpha|max:30',
-            'last_name' => 'required|alpha|max:30',
-            'maiden_name' => 'required|alpha|max:30',
+            'first_name' => 'required|string|max:30',
+            'last_name' => 'required|string|max:30',
+            'maiden_name' => 'required|string|max:30',
             'salary' => 'required|numeric',
             'date_of_hire' => 'required|date'
         ];

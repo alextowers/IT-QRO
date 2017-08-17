@@ -26,9 +26,9 @@ class UpdateEmployee extends FormRequest
         return [
             'branch' => 'required_without:position,first_name,last_name,maiden_name,salary,date_of_hire|numeric',
             'position' => 'numeric',
-            'first_name' => 'alpha|max:30',
-            'last_name' => 'alpha|max:30',
-            'maiden_name' => 'alpha|max:30',
+            'first_name' => 'string|max:30',
+            'last_name' => 'string|max:30',
+            'maiden_name' => 'string|max:30',
             'salary' => 'numeric',
             'date_of_hire' => 'date'
         ];

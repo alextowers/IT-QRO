@@ -26,9 +26,9 @@ class StoreProduct extends FormRequest
         return [
             'category' => 'required|numeric',
             'branch' => 'required|array',
-            'sku' => 'required|numeric|min:6|max:15',
-            'name' => 'required|alpha_num|max:50',
-            'description' => 'required|alpha_num|max:100',
+            'sku' => 'required|string|min:6|max:15',
+            'name' => 'required|string|max:50',
+            'description' => 'required|string|max:100',
             'price' => 'required|numeric',
             'image' => 'required|image'
         ];

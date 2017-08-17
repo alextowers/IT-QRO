@@ -24,11 +24,11 @@ class UpdateProduct extends FormRequest
     public function rules()
     {
         return [
-            'category' => 'required_without:branch,sku,name,,description,price,image|numeric',
+            'category' => 'required_without:branch,sku,name,description,price,image|numeric',
             'branch' => 'array',
-            'sku' => 'numeric|min:6|max:15',
-            'name' => 'alpha_num|max:50',
-            'description' => 'alpha_num|max:100',
+            'sku' => 'string|min:6|max:15',
+            'name' => 'string|max:50',
+            'description' => 'string|max:100',
             'price' => 'numeric',
             'image' => 'image'
         ];

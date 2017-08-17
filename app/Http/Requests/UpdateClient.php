@@ -25,9 +25,9 @@ class UpdateClient extends FormRequest
     {
         return [
             'branch' => 'required_without:name,rfc,contact|numeric',
-            'name' => 'alpha-num|max:50',
+            'name' => 'string|max:50',
             'rfc' => 'alpha-num|min:12|max:13',
-            'contact' => 'alpha|max:50'
+            'contact' => 'string|max:50'
         ];
     }
 }
