@@ -11,6 +11,7 @@
 
                     <!-- Form Name -->
                     <legend>Actualiza los datos del producto: {{ $product->name }}</legend>
+                    <a href="{{ route('products.show', $product->id) }}" class="btn btn-default pull-right">Regresar</a>
 
                     @if ($errors->any())
                         <div class="alert alert-danger">

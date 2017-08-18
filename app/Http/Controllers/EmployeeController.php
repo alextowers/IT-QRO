@@ -26,10 +26,10 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $data = Employee::all();
+        $employees = Employee::paginate(10);
 
         return view('employees.index')
-            ->with('data', $data);
+            ->with('employees', $employees);
     }
 
     /**
@@ -39,7 +39,12 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('employees.create');
+        $branches = \App\Branch::all();
+        $positions = \App\Position::all();
+
+        return view('employees.create')
+            ->with('branches', $branches)
+            ->with('positions', $positions);
     }
 
     /**
@@ -52,18 +57,17 @@ class EmployeeController extends Controller
     {
         $employee = new Employee;
 
-        $employee->name = $request->input('name');
         $employee->first_name = $request->input('first_name');
         $employee->last_name = $request->input('last_name');
         $employee->maiden_name = $request->input('maiden_name');
         $employee->salary = $request->input('salary');
         $employee->date_of_hire = $request->input('date_of_hire');
 
-        $branch = App\Branch::find($request->input('branch'));
+        $branch = \App\Branch::find($request->input('branch'));
         $employee->branch()
             ->associate($branch);
 
-        $position = App\Position::find($request->input('position'));
+        $position = \App\Position::find($request->input('position'));
         $employee->position()
             ->associate($position);
 
@@ -96,9 +100,13 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
+        $branches = \App\Branch::all();
+        $positions = \App\Position::all();
         $employee = Employee::find($employee->id);
 
         return view('employees.edit')
+            ->with('branches', $branches)
+            ->with('positions', $positions)
             ->with('employee', $employee);
     }
 
@@ -129,14 +137,18 @@ class EmployeeController extends Controller
             $employee->date_of_hire = $request->input('date_of_hire');
         }
         if ($request->has('branch')) {
-            $branch = App\Branch::find($request->input('branch'));
-            $employee->branch()
-                ->associate($branch);
+            if ($request->input('branch') != 0) {
+                $branch = App\Branch::find($request->input('branch'));
+                $employee->branch()
+                    ->associate($branch);
+            }
         }
         if ($request->has('position')) {
-            $position = App\Position::find($request->input('position'));
-            $employee->position()
-                ->associate($position);
+            if ($request->input('position') != 0) {
+                $position = App\Position::find($request->input('position'));
+                $employee->position()
+                    ->associate($position);
+            }
         }
 
         $employee->save();

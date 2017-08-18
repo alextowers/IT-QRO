@@ -10,6 +10,7 @@
 
                     <!-- Form Name -->
                     <legend>Agrega un nuevo producto</legend>
+                    <a href="{{ route('products.index') }}" class="btn btn-default pull-right">Regresar</a>
 
                     @if ($errors->any())
                         <div class="alert alert-danger">

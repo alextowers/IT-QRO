@@ -26,10 +26,10 @@ class PositionController extends Controller
      */
     public function index()
     {
-        $data = Position::all();
+        $positions = Position::paginate(10);
 
         return view('positions.index')
-            ->with('data', $data);
+            ->with('positions', $positions);
     }
 
     /**

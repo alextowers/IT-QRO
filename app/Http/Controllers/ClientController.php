@@ -26,10 +26,10 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $data = Client::all();
+        $clients = Client::paginate(10);
 
         return view('clients.index')
-            ->with('data', $data);
+            ->with('clients', $clients);
     }
 
     /**
@@ -39,7 +39,10 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('clients.create');
+        $branches = \App\Branch::all();
+
+        return view('clients.create')
+            ->with('branches', $branches);
     }
 
     /**
@@ -56,7 +59,7 @@ class ClientController extends Controller
         $client->rfc = $request->input('rfc');
         $client->contact = $request->input('contact');
 
-        $branch = App\Branch::find($request->input('branch'));
+        $branch = \App\Branch::find($request->input('branch'));
         $client->branch()
             ->associate($branch);
 
@@ -89,9 +92,11 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
+        $branches = \App\Branch::all();
         $client = Client::find($client->id);
 
         return view('clients.edit')
+            ->with('branches', $branches)
             ->with('client', $client);
     }
 
@@ -116,9 +121,11 @@ class ClientController extends Controller
             $client->contact = $request->input('contact');
         }
         if ($request->has('branch')) {
-            $branch = App\Branch::find($request->input('branch'));
-            $client->branch()
-                ->associate($branch);
+            if ($request->input('branch') != 0) {
+                $branch = App\Branch::find($request->input('branch'));
+                $client->branch()
+                    ->associate($branch);
+            }
         }
         
         $client->save();
