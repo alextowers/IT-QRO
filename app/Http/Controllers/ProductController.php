@@ -27,20 +27,28 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        $category = null;
+        $price = null;
         $categories = \App\Category::all();
-        $products = Product::all();
 
         if ($request->has('category')) {
-            $products->where('category_id', $request->input('category'));
+            $category = $request->input('category');
         }
         if ($request->has('price')) {
-            if ($request->input('price') == "asc") {
-                $products = $products->sortBy('price');
-            } elseif ($request->input('price') == "desc") {
-                $products = $products->sortByDesc('price');
-            }
+            $price = $request->input('price');
         }
-        
+
+        $products = Product::when($request->has('category'), function ($query) use ($category) {
+            if ($category != "none") {
+                return $query->where('category_id', $category);
+            }
+        })
+        ->when($request->has('price'), function ($query) use ($price) {
+            if ($price != "none") {
+                return $query->orderBy('price', $price);
+            }
+        })
+        ->paginate(6);
 
         return view('products.index')
             ->with('products', $products)
@@ -101,7 +109,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product = Product::find($product);
+        $product = Product::find($product->id);
 
         return view('products.show')
             ->with('product', $product);
@@ -115,9 +123,13 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $product = Product::find($product);
+        $categories = \App\Category::all();
+        $branches = \App\Branch::all();
+        $product = Product::find($product->id);
 
         return view('products.edit')
+            ->with('categories', $categories)
+            ->with('branches', $branches)
             ->with('product', $product);
     }
 
@@ -130,7 +142,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProduct $request, Product $product)
     {
-        $product = Product::find($product);
+        $product = Product::find($product->id);
 
         if ($request->has('sku')) {
             $product->sku = $request->input('sku');
@@ -148,9 +160,11 @@ class ProductController extends Controller
             $product->image = $request->file('image')->store('images');
         }
         if ($request->has('category')) {
-            $category = App\Category::find($request->input('category'));
-            $product->category()
-                ->associate($category);
+            if ($request->input('category') != 0) {
+                $category = App\Category::find($request->input('category'));
+                $product->category()
+                    ->associate($category);
+            }
         }
         if ($request->has('branch')) {
             $branch = \App\Branch::find($request->input('branch'));
@@ -173,7 +187,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $product = Product::find($product);
+        $product = Product::find($product->id);
         $product->delete();
 
         return redirect()

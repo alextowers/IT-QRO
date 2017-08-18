@@ -69,7 +69,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $category = Category::find($category);
+        $category = Category::find($category->id);
 
         return view('categories.show')
             ->with('category', $category);
@@ -83,7 +83,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $category = Category::find($category);
+        $category = Category::find($category->id);
 
         return view('categories.edit')
             ->with('category', $category);
@@ -98,7 +98,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategory $request, Category $category)
     {
-        $category = Category::find($category);
+        $category = Category::find($category->id);
 
         $category->name = $request->input('name');
 
@@ -117,7 +117,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category = Category::find($category);
+        $category = Category::find($category->id);
         $category->delete();
 
         return redirect()

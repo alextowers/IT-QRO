@@ -1,6 +1,6 @@
 @extends('layouts.app') 
-@section('content') 
 
+@section('content') 
 @include('layouts.__admin_nav')
     <div class="container">
         <div class="row">
@@ -69,7 +69,6 @@
                         <label class="col-md-4 control-label" for="category">Categoria</label>
                         <div class="col-md-4">
                             <select id="category" name="category" class="form-control">
-                                <option value="null">Selecciona una categoria</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ ucwords($category->name) }}</option>
                                 @endforeach

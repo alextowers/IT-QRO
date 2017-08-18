@@ -75,7 +75,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        $client = Client::find($client);
+        $client = Client::find($client->id);
 
         return view('clients.show')
             ->with('client', $client);
@@ -89,7 +89,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        $client = Client::find($client);
+        $client = Client::find($client->id);
 
         return view('clients.edit')
             ->with('client', $client);
@@ -104,7 +104,7 @@ class ClientController extends Controller
      */
     public function update(UpdateClient $request, Client $client)
     {
-        $client = Client::find($client);
+        $client = Client::find($client->id);
 
         if ($request->has('name')) {
             $client->name = $request->input('name');
@@ -136,7 +136,7 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        $client = Client::find($client);
+        $client = Client::find($client->id);
         $client->delete();
 
         return redirect()

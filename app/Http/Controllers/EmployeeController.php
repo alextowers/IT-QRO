@@ -82,7 +82,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        $employee = Employee::find($employee);
+        $employee = Employee::find($employee->id);
 
         return view('employees.show')
             ->with('employee', $employee);
@@ -96,7 +96,7 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        $employee = Employee::find($employee);
+        $employee = Employee::find($employee->id);
 
         return view('employees.edit')
             ->with('employee', $employee);
@@ -111,7 +111,7 @@ class EmployeeController extends Controller
      */
     public function update(UpdateEmployee $request, Employee $employee)
     {
-        $employee = Employee::find($employee);
+        $employee = Employee::find($employee->id);
 
         if ($request->has('first_name')) {
             $employee->first_name = $request->input('first_name');
@@ -154,7 +154,7 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        $employee = Employee::find($employee);
+        $employee = Employee::find($employee->id);
         $employee->delete();
 
         return redirect()

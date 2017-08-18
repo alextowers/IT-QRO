@@ -11,6 +11,7 @@
                 <div class="form-group">
                     <label for="type">Categoría:</label>
                     <select name="category" id="category" class="form-control" required="required">
+                        <option value="none">Selecciona una categoria</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ ucwords($category->name) }}</option>
                         @endforeach
@@ -19,6 +20,7 @@
                 <div class="form-group">
                     <label for="type">Precio:</label>
                     <select name="price" id="price" class="form-control" required="required">
+                        <option value="none">Ordena por precio del producto</option>
                         <option value="asc">Mas bajo a mas alto</option>
                         <option value="desc">Mas alto a mas bajo</option>
                     </select>
@@ -44,21 +46,7 @@
                             <div class="col-xs-6">
                                 <p class="product-title">{{ $product->name }}</p>
                                 <p>{{ $product->description }}</p>
-                                @if (Auth::user())                            
-                                <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-default">Detalles</button>
-                                    </div>
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-default">Editar</button>
-                                    </div>
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-default">Eliminar</button>
-                                    </div>
-                                </div>
-                                @else
-                                    <a class="btn btn-block btn-info center" href="{{ route('products.show') }}">Detalles</a>
-                                @endif
+                                <a href="{{ route('products.show', $product->id) }}"><button type="button" class="btn btn-info btn-block">Detalles</button></a>
                             </div>
                         </div>
                     </div>
@@ -69,5 +57,6 @@
                 </div>
             @endif
         </div>
+        {{ $products->links() }}
     </div>
 @endsection

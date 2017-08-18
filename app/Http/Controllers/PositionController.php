@@ -69,7 +69,7 @@ class PositionController extends Controller
      */
     public function show(Position $position)
     {
-        $position = Position::find($position);
+        $position = Position::find($position->id);
 
         return view('positions.show')
             ->with('position', $position);
@@ -83,7 +83,7 @@ class PositionController extends Controller
      */
     public function edit(Position $position)
     {
-        $position = Position::find($position);
+        $position = Position::find($position->id);
 
         return view('positions.edit')
             ->with('position', $position);
@@ -98,7 +98,7 @@ class PositionController extends Controller
      */
     public function update(UpdatePosition $request, Position $position)
     {
-        $position = Position::find($position);
+        $position = Position::find($position->id);
 
         $position->name = $request->input('name');
 
@@ -117,7 +117,7 @@ class PositionController extends Controller
      */
     public function destroy(Position $position)
     {
-        $position = Position::find($position);
+        $position = Position::find($position->id);
         $position->delete();
 
         return redirect()

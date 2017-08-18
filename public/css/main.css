@@ -83,6 +83,11 @@ span.text-muted {
   width: 100%;
   object-fit: contain;
 }
+.product-image-large {
+  height: 300px;
+  width: 100%;
+  object-fit: contain;
+}
 #filtersContainer {
   background-color: #BDBDBD;
   min-height: 100px;
